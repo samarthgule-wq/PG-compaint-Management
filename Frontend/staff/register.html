@@ -1,0 +1,576 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Registration - PG Complaint Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f6f8;
+        }
+
+        .register-container {
+            width: 430px;
+
+            max-width: 92%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+
+            text-align: center;
+
+            color: #1e3a8a;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #666;
+
+            margin-bottom: 25px;
+        }
+
+        .security-info {
+            background: #eff6ff;
+
+            border: 1px solid #bfdbfe;
+
+            color: #1e40af;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 22px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 17px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            background: #93c5fd;
+
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 18px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            line-height: 1.5;
+        }
+
+        .success {
+            color: #166534;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        .back {
+            display: block;
+
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #2563eb;
+
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="register-container">
+
+
+    <h1>
+        Staff Registration
+    </h1>
+
+
+    <p class="subtitle">
+        PG Complaint Management
+    </p>
+
+
+    <div class="security-info">
+
+        <strong>Staff-only registration</strong><br>
+
+        You need a valid Staff ID and
+        Registration Key to create a staff account.
+
+    </div>
+
+
+    <form id="registerForm">
+
+
+        <!-- STAFF ID -->
+
+        <label for="staffId">
+            Staff ID
+        </label>
+
+        <input
+            type="text"
+            id="staffId"
+            placeholder="Example: STAFF001"
+            required
+        >
+
+
+        <!-- NAME -->
+
+        <label for="name">
+            Full Name
+        </label>
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter staff name"
+            required
+        >
+
+
+        <!-- EMAIL -->
+
+        <label for="email">
+            Staff Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter staff email"
+            required
+        >
+
+
+        <!-- PASSWORD -->
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Minimum 6 characters"
+            minlength="6"
+            required
+        >
+
+
+        <!-- REGISTRATION KEY -->
+
+        <label for="registrationKey">
+            Registration Key
+        </label>
+
+        <input
+            type="password"
+            id="registrationKey"
+            placeholder="Enter staff registration key"
+            required
+        >
+
+
+        <button
+            type="submit"
+            id="registerButton"
+        >
+            Create Staff Account
+        </button>
+
+
+    </form>
+
+
+    <div id="message"></div>
+
+
+    <a
+        href="login.html"
+        class="back"
+    >
+        ← Back to Staff Login
+    </a>
+
+
+</div>
+
+
+
+<script>
+
+
+// ======================================================
+// STAFF REGISTRATION
+// ======================================================
+
+document
+    .getElementById("registerForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+
+            // Prevent normal HTML form submission
+
+            event.preventDefault();
+
+
+            // ==================================================
+            // GET FORM VALUES
+            // ==================================================
+
+            const staffId =
+                document
+                    .getElementById("staffId")
+                    .value
+                    .trim();
+
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            const registrationKey =
+                document
+                    .getElementById("registrationKey")
+                    .value;
+
+
+            const message =
+                document
+                    .getElementById("message");
+
+
+            const registerButton =
+                document
+                    .getElementById("registerButton");
+
+
+            // ==================================================
+            // BASIC VALIDATION
+            // ==================================================
+
+            if (
+                !staffId ||
+                !name ||
+                !email ||
+                !password ||
+                !registrationKey
+            ) {
+
+                message.className =
+                    "error";
+
+                message.textContent =
+                    "Please fill in all fields.";
+
+                return;
+
+            }
+
+
+            if (password.length < 6) {
+
+                message.className =
+                    "error";
+
+                message.textContent =
+                    "Password must be at least 6 characters.";
+
+                return;
+
+            }
+
+
+            // ==================================================
+            // SHOW LOADING
+            // ==================================================
+
+            registerButton.disabled =
+                true;
+
+            registerButton.textContent =
+                "Creating Account...";
+
+
+            message.className = "";
+
+            message.textContent =
+                "Creating staff account...";
+
+
+            try {
+
+
+                // ==================================================
+                // SEND DATA TO BACKEND
+                // ==================================================
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/staff/register",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    staff_id:
+                                        staffId,
+
+                                    name:
+                                        name,
+
+                                    email:
+                                        email,
+
+                                    password:
+                                        password,
+
+                                    registration_key:
+                                        registrationKey
+
+                                })
+
+                        }
+                    );
+
+
+                // ==================================================
+                // READ BACKEND RESPONSE
+                // ==================================================
+
+                const data =
+                    await response.json();
+
+
+                // ==================================================
+                // REGISTRATION FAILED
+                // ==================================================
+
+                if (!response.ok) {
+
+                    message.className =
+                        "error";
+
+                    message.textContent =
+                        data.message ||
+                        "Staff registration failed.";
+
+                    return;
+
+                }
+
+
+                // ==================================================
+                // REGISTRATION SUCCESS
+                // ==================================================
+
+                message.className =
+                    "success";
+
+                message.innerHTML =
+
+                    "Staff account created successfully!<br>" +
+
+                    "Staff ID: " +
+                    data.staff_id +
+                    "<br><br>" +
+
+                    "Redirecting to Staff Login...";
+
+
+                // Clear form
+
+                document
+                    .getElementById("registerForm")
+                    .reset();
+
+
+                // ==================================================
+                // REDIRECT TO LOGIN
+                // ==================================================
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "login.html";
+
+                    },
+                    2000
+                );
+
+
+            } catch (error) {
+
+
+                // ==================================================
+                // SERVER CONNECTION ERROR
+                // ==================================================
+
+                console.error(error);
+
+
+                message.className =
+                    "error";
+
+                message.textContent =
+                    "Unable to connect to server. " +
+                    "Make sure the backend server is running.";
+
+
+            } finally {
+
+
+                // Re-enable button
+
+                registerButton.disabled =
+                    false;
+
+                registerButton.textContent =
+                    "Create Staff Account";
+
+            }
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

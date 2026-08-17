@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Login - PG Complaint Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0e7ff,
+                    #f8fafc
+                );
+
+        }
+
+
+        .login-container {
+
+            width: 420px;
+
+            max-width: 92%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(0, 0, 0, 0.12);
+
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            margin: 0;
+
+            color: #111827;
+
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #64748b;
+
+            margin-top: 10px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .admin-badge {
+
+            width: fit-content;
+
+            margin: 0 auto 25px;
+
+            padding: 8px 16px;
+
+            border-radius: 20px;
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #374151;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+
+        }
+
+
+        input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.1);
+
+        }
+
+
+        button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        button:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        button:disabled {
+
+            background: #94a3b8;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .message {
+
+            margin-top: 18px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            display: none;
+
+            text-align: center;
+
+            font-weight: bold;
+
+        }
+
+
+        .error {
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+        }
+
+
+        .success {
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+        }
+
+
+        .back-link {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+    <h1>
+        PG Complaint Management
+    </h1>
+
+
+    <p class="subtitle">
+        Administrator Access
+    </p>
+
+
+    <div class="admin-badge">
+        ADMIN LOGIN
+    </div>
+
+
+    <form id="adminLoginForm">
+
+
+        <div class="form-group">
+
+            <label for="email">
+                Admin Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter admin email"
+                required
+                autocomplete="username"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                Admin Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter admin password"
+                required
+                autocomplete="current-password"
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            id="loginButton"
+        >
+            Login as Admin
+        </button>
+
+
+    </form>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <a
+        href="../index.html"
+        class="back-link"
+    >
+        ← Back to Main Page
+    </a>
+
+</div>
+
+
+
+<script>
+
+// ======================================================
+// API CONFIGURATION
+// ======================================================
+
+const API_URL = "http://localhost:5000";
+
+
+// ======================================================
+// ADMIN LOGIN
+// ======================================================
+
+const loginForm =
+    document.getElementById(
+        "adminLoginForm"
+    );
+
+
+const loginButton =
+    document.getElementById(
+        "loginButton"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+// ======================================================
+// SHOW MESSAGE
+// ======================================================
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+
+    message.style.display =
+        "block";
+
+}
+
+
+// ======================================================
+// LOGIN FORM
+// ======================================================
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        loginButton.disabled =
+            true;
+
+
+        loginButton.textContent =
+            "Logging in...";
+
+
+        message.style.display =
+            "none";
+
+
+        try {
+
+            // ==================================================
+            // SEND LOGIN REQUEST
+            // ==================================================
+
+            const response =
+                await fetch(
+                    API_URL + "/api/admin/login",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                email:
+                                    email,
+
+                                password:
+                                    password
+
+                            })
+
+                    }
+                );
+
+
+            let data = {};
+
+            try {
+
+                data =
+                    await response.json();
+
+            } catch (jsonError) {
+
+                console.error(
+                    "Invalid JSON response:",
+                    jsonError
+                );
+
+            }
+
+
+            // ==================================================
+            // LOGIN FAILED (HTTP ERROR FROM SERVER)
+            // ==================================================
+
+            if (!response.ok) {
+
+                showMessage(
+
+                    data.message ||
+                    `Admin login failed (Status: ${response.status})`,
+
+                    "error"
+
+                );
+
+                return;
+
+            }
+
+
+            // ==================================================
+            // MAKE SURE THIS IS REALLY AN ADMIN
+            // ==================================================
+
+            if (
+                !data.user ||
+                data.user.role !== "admin"
+            ) {
+
+                showMessage(
+
+                    "Access denied. This account is not an administrator.",
+
+                    "error"
+
+                );
+
+                return;
+
+            }
+
+
+            // ==================================================
+            // REMOVE OLD STORAGE
+            // ==================================================
+
+            sessionStorage.removeItem(
+                "adminToken"
+            );
+
+            sessionStorage.removeItem(
+                "adminUser"
+            );
+
+
+            localStorage.removeItem(
+                "adminToken"
+            );
+
+            localStorage.removeItem(
+                "adminUser"
+            );
+
+
+            // ==================================================
+            // SAVE ADMIN TOKEN
+            //
+            // IMPORTANT:
+            // Dashboard and Create Staff also use localStorage.
+            // ==================================================
+
+            localStorage.setItem(
+                "adminToken",
+                data.token
+            );
+
+
+            localStorage.setItem(
+                "adminUser",
+                JSON.stringify(
+                    data.user
+                )
+            );
+
+
+            // ==================================================
+            // VERIFY STORAGE
+            // ==================================================
+
+            const savedToken =
+                localStorage.getItem(
+                    "adminToken"
+                );
+
+
+            const savedUser =
+                JSON.parse(
+                    localStorage.getItem(
+                        "adminUser"
+                    ) || "null"
+                );
+
+
+            if (
+                !savedToken ||
+                !savedUser ||
+                savedUser.role !== "admin"
+            ) {
+
+                showMessage(
+
+                    "Unable to save admin login information.",
+
+                    "error"
+
+                );
+
+                return;
+
+            }
+
+
+            // ==================================================
+            // SUCCESS
+            // ==================================================
+
+            showMessage(
+
+                "Login successful. Opening dashboard...",
+
+                "success"
+
+            );
+
+
+            // ==================================================
+            // OPEN DASHBOARD
+            // ==================================================
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                },
+                500
+            );
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Admin login error:",
+                error
+            );
+
+
+            if (
+                error.name === "TypeError" &&
+                error.message.includes("fetch")
+            ) {
+
+                showMessage(
+
+                    "Unable to connect to the server. Make sure the backend is running on http://localhost:5000.",
+
+                    "error"
+
+                );
+
+            } else {
+
+                showMessage(
+
+                    error.message ||
+                    "An unexpected error occurred during login.",
+
+                    "error"
+
+                );
+
+            }
+
+        }
+
+        finally {
+
+            loginButton.disabled =
+                false;
+
+            loginButton.textContent =
+                "Login as Admin";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

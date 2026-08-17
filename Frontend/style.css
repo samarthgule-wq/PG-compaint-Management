@@ -1,0 +1,189 @@
+* {
+    box-sizing: border-box; /* Makes width and height easier to control */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+}
+
+
+body {
+    font-family: Arial, sans-serif; /* Sets a simple readable font */
+    background: #f4f6f8; /* Gives the page a light background */
+    min-height: 100vh; /* Makes the page at least full screen height */
+}
+
+
+.container {
+    min-height: 100vh; /* Makes container fill the screen */
+    display: flex; /* Enables flexbox */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    padding: 20px; /* Adds space around the login box */
+}
+
+
+.login-box {
+    width: 100%; /* Allows the box to use available width */
+    max-width: 420px; /* Prevents the box from becoming too wide */
+    background: white; /* Gives the box a white background */
+    padding: 35px; /* Adds internal spacing */
+    border-radius: 12px; /* Rounds the corners */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Adds a small shadow */
+}
+
+
+h1 {
+    text-align: center; /* Centers the heading */
+    margin-bottom: 10px; /* Adds space below heading */
+    font-size: 26px; /* Sets heading size */
+}
+
+
+.subtitle {
+    text-align: center; /* Centers subtitle */
+    color: #666; /* Gives subtitle a gray color */
+    margin-bottom: 25px; /* Adds space below subtitle */
+}
+
+
+label {
+    display: block; /* Places label on its own line */
+    margin-bottom: 6px; /* Adds space below label */
+    font-weight: bold; /* Makes label bold */
+}
+
+
+input {
+    width: 100%; /* Makes input fill the available width */
+    padding: 12px; /* Adds space inside input */
+    margin-bottom: 18px; /* Adds space below input */
+    border: 1px solid #ccc; /* Adds border */
+    border-radius: 6px; /* Rounds input corners */
+    font-size: 15px; /* Sets input text size */
+}
+
+
+input:focus {
+    outline: none; /* Removes default browser outline */
+    border-color: #333; /* Changes border when selected */
+}
+
+
+button {
+    width: 100%; /* Makes button full width */
+    padding: 12px; /* Adds space inside button */
+    border: none; /* Removes default border */
+    border-radius: 6px; /* Rounds button corners */
+    background: #222; /* Gives button a dark background */
+    color: white; /* Makes button text white */
+    font-size: 16px; /* Sets button text size */
+    cursor: pointer; /* Shows pointer when hovering */
+}
+
+
+button:hover {
+    background: #444; /* Changes button color when hovering */
+}
+
+
+#message {
+    text-align: center; /* Centers the message */
+    margin-top: 15px; /* Adds space above message */
+    font-size: 14px; /* Sets message size */
+}
+
+/* ======================================================
+   RESIDENT DASHBOARD
+   ====================================================== */
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 25px;
+}
+
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+.dashboard-header h1 {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+
+#logoutButton {
+    width: auto;
+    padding: 10px 20px;
+    background: #c62828;
+}
+
+
+#logoutButton:hover {
+    background: #a91f1f;
+}
+
+
+.complaint-section {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+.complaint-section h2 {
+    margin-bottom: 20px;
+}
+
+
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+
+#loadComplaintsButton {
+    width: auto;
+    margin-bottom: 20px;
+}
+
+
+.complaint-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 15px;
+    background: #fafafa;
+}
+
+
+.complaint-card h3 {
+    margin-bottom: 12px;
+}
+
+
+.complaint-card p {
+    margin-bottom: 8px;
+}

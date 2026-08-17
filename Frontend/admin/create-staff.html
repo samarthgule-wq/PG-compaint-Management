@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Staff - PG Complaint Management</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: flex-start;
+
+            padding: 40px 16px;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0e7ff,
+                    #f8fafc
+                );
+
+        }
+
+
+        .container {
+
+            width: 480px;
+
+            max-width: 100%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(0, 0, 0, 0.12);
+
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            margin-top: 0;
+
+            margin-bottom: 6px;
+
+            color: #111827;
+
+            font-size: 22px;
+
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #6b7280;
+
+            margin-bottom: 28px;
+
+            font-size: 14px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #374151;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            margin-bottom: 18px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: border-color 0.2s;
+
+        }
+
+
+        input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+
+        }
+
+
+        .btn-primary {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+
+        }
+
+
+        .btn-primary:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        .btn-primary:disabled {
+
+            background: #94a3b8;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .btn-secondary {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 2px solid #2563eb;
+
+            border-radius: 6px;
+
+            background: white;
+
+            color: #2563eb;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 12px;
+
+            transition: all 0.2s;
+
+        }
+
+
+        .btn-secondary:hover {
+
+            background: #eff6ff;
+
+        }
+
+
+        .back-link {
+
+            display: block;
+
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* ====================================================
+           ERROR MESSAGE
+        ==================================================== */
+
+        #errorMessage {
+
+            margin-top: 16px;
+
+            padding: 12px 16px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            border-radius: 7px;
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            display: none;
+
+        }
+
+
+        /* ====================================================
+           SUCCESS PANEL
+           Replaces the form on success — cannot vanish
+        ==================================================== */
+
+        #successPanel {
+
+            display: none;
+
+        }
+
+
+        .success-header {
+
+            text-align: center;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .success-icon {
+
+            font-size: 52px;
+
+            display: block;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .success-header h2 {
+
+            color: #15803d;
+
+            margin: 0 0 6px;
+
+            font-size: 20px;
+
+        }
+
+
+        .success-header p {
+
+            color: #6b7280;
+
+            margin: 0;
+
+            font-size: 14px;
+
+        }
+
+
+        .info-card {
+
+            background: #f0fdf4;
+
+            border: 1.5px solid #86efac;
+
+            border-radius: 10px;
+
+            padding: 20px 24px;
+
+            margin-bottom: 16px;
+
+        }
+
+
+        .info-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 10px 0;
+
+            border-bottom: 1px solid #dcfce7;
+
+        }
+
+
+        .info-row:last-child {
+
+            border-bottom: none;
+
+            padding-bottom: 0;
+
+        }
+
+
+        .info-row:first-child {
+
+            padding-top: 0;
+
+        }
+
+
+        .info-label {
+
+            font-size: 13px;
+
+            color: #6b7280;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.04em;
+
+        }
+
+
+        .info-value {
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            color: #111827;
+
+            text-align: right;
+
+            word-break: break-all;
+
+        }
+
+
+        .staff-id-value {
+
+            font-size: 22px;
+
+            color: #15803d;
+
+            letter-spacing: 0.06em;
+
+        }
+
+
+        .warning-box {
+
+            background: #fffbeb;
+
+            border: 1.5px solid #fbbf24;
+
+            border-radius: 8px;
+
+            padding: 12px 16px;
+
+            margin-bottom: 20px;
+
+            font-size: 13px;
+
+            color: #92400e;
+
+            text-align: center;
+
+        }
+
+
+        .warning-box strong {
+
+            display: block;
+
+            margin-bottom: 4px;
+
+            font-size: 14px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ================================================
+         CREATE FORM (shown by default)
+    ================================================ -->
+
+    <div id="formPanel">
+
+        <h1>Create Staff Account</h1>
+
+        <p class="subtitle">PG Complaint Management — Admin Panel</p>
+
+
+        <form id="createStaffForm" novalidate>
+
+
+            <label for="name">
+                Staff Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter staff full name"
+                autocomplete="off"
+            >
+
+
+            <label for="email">
+                Staff Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter staff email address"
+                autocomplete="off"
+            >
+
+
+            <label for="password">
+                Temporary Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter temporary password (min 6 chars)"
+                autocomplete="new-password"
+            >
+
+
+            <button
+                type="submit"
+                id="createButton"
+                class="btn-primary"
+            >
+                Create Staff Account
+            </button>
+
+
+        </form>
+
+
+        <div id="errorMessage"></div>
+
+
+        <a
+            href="dashboard.html"
+            class="back-link"
+        >
+            ← Back to Admin Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- ================================================
+         SUCCESS PANEL (shown after staff is created)
+         This panel REPLACES the form so it cannot vanish
+    ================================================ -->
+
+    <div id="successPanel">
+
+        <div class="success-header">
+
+            <span class="success-icon">✅</span>
+
+            <h2>Staff Account Created!</h2>
+
+            <p>The staff account has been successfully created.</p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="info-row">
+                <span class="info-label">Staff ID</span>
+                <span class="info-value staff-id-value" id="displayStaffId">—</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Name</span>
+                <span class="info-value" id="displayName">—</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Email</span>
+                <span class="info-value" id="displayEmail">—</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Password</span>
+                <span class="info-value" id="displayPassword">—</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Role</span>
+                <span class="info-value">Staff</span>
+            </div>
+
+        </div>
+
+
+        <div class="warning-box">
+            <strong>⚠️ Save These Credentials Now</strong>
+            Share the email and password with the staff member. The password cannot be retrieved later.
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-primary"
+            onclick="window.location.href='dashboard.html'"
+        >
+            Go to Admin Dashboard
+        </button>
+
+        <button
+            type="button"
+            class="btn-secondary"
+            id="createAnotherBtn"
+        >
+            + Create Another Staff Account
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+// ======================================================
+// API CONFIGURATION
+// ======================================================
+
+const API_URL = "http://localhost:5000";
+
+
+// ======================================================
+// GET ADMIN LOGIN INFORMATION
+// ======================================================
+
+const adminToken =
+    localStorage.getItem("adminToken");
+
+
+let adminUser = null;
+
+
+try {
+
+    adminUser =
+        JSON.parse(
+            localStorage.getItem("adminUser") || "null"
+        );
+
+} catch (error) {
+
+    console.error(
+        "Unable to read adminUser:",
+        error
+    );
+
+    adminUser = null;
+
+}
+
+
+// ======================================================
+// CHECK ADMIN LOGIN
+// ======================================================
+
+if (
+    !adminToken ||
+    !adminUser ||
+    adminUser.role !== "admin"
+) {
+
+    localStorage.removeItem("adminToken");
+
+    localStorage.removeItem("adminUser");
+
+    window.location.href = "login.html";
+
+}
+
+
+// ======================================================
+// GET HTML ELEMENTS
+// ======================================================
+
+const formPanel =
+    document.getElementById("formPanel");
+
+const successPanel =
+    document.getElementById("successPanel");
+
+const form =
+    document.getElementById("createStaffForm");
+
+const createButton =
+    document.getElementById("createButton");
+
+const errorMessage =
+    document.getElementById("errorMessage");
+
+const createAnotherBtn =
+    document.getElementById("createAnotherBtn");
+
+
+// ======================================================
+// SHOW ERROR MESSAGE
+// ======================================================
+
+function showError(text) {
+
+    errorMessage.textContent = text;
+
+    errorMessage.style.display = "block";
+
+}
+
+
+function hideError() {
+
+    errorMessage.style.display = "none";
+
+}
+
+
+// ======================================================
+// SHOW SUCCESS PANEL
+//
+// Hides the form and shows the success info permanently.
+// The user must explicitly click a button to go back.
+// ======================================================
+
+function showSuccess(staffId, name, email, password) {
+
+    document.getElementById("displayStaffId").textContent =
+        staffId || "—";
+
+    document.getElementById("displayName").textContent =
+        name || "—";
+
+    document.getElementById("displayEmail").textContent =
+        email || "—";
+
+    document.getElementById("displayPassword").textContent =
+        password || "—";
+
+    // Hide form, show success panel
+    formPanel.style.display = "none";
+
+    successPanel.style.display = "block";
+
+}
+
+
+// ======================================================
+// RESET: Go back to the form for another entry
+// ======================================================
+
+createAnotherBtn.addEventListener("click", function() {
+
+    // Clear form fields
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+
+    hideError();
+
+    // Show form, hide success panel
+    successPanel.style.display = "none";
+
+    formPanel.style.display = "block";
+
+});
+
+
+// ======================================================
+// CREATE STAFF — FORM SUBMIT
+// ======================================================
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        // Always prevent default form submission
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        // ==================================================
+        // GET FORM VALUES
+        // ==================================================
+
+        const name =
+            document.getElementById("name").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim().toLowerCase();
+
+        const password =
+            document.getElementById("password").value;
+
+
+        hideError();
+
+
+        // ==================================================
+        // VALIDATE NAME
+        // ==================================================
+
+        if (!name || name.length < 2) {
+
+            showError("Please enter a valid staff name (at least 2 characters).");
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // VALIDATE EMAIL
+        // ==================================================
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+
+            showError("Please enter a valid email address.");
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // VALIDATE PASSWORD
+        // ==================================================
+
+        if (!password || password.length < 6) {
+
+            showError("Password must be at least 6 characters.");
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // DISABLE BUTTON
+        // ==================================================
+
+        createButton.disabled = true;
+
+        createButton.textContent = "Creating...";
+
+
+        try {
+
+            // ==================================================
+            // SEND REQUEST TO BACKEND
+            // ==================================================
+
+            const response =
+                await fetch(
+                    API_URL + "/api/admin/staff",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type": "application/json",
+
+                            "Authorization": "Bearer " + adminToken
+
+                        },
+
+                        body: JSON.stringify({
+                            name:     name,
+                            email:    email,
+                            password: password
+                        })
+
+                    }
+                );
+
+
+            // ==================================================
+            // PARSE RESPONSE
+            // ==================================================
+
+            let data = {};
+
+            try {
+
+                data = await response.json();
+
+            } catch (jsonError) {
+
+                console.error("Invalid JSON from server:", jsonError);
+
+            }
+
+
+            // ==================================================
+            // SESSION EXPIRED
+            // ==================================================
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                localStorage.removeItem("adminToken");
+
+                localStorage.removeItem("adminUser");
+
+                alert("Your admin session has expired. Please login again.");
+
+                window.location.href = "login.html";
+
+                return;
+
+            }
+
+
+            // ==================================================
+            // OTHER SERVER ERROR
+            // ==================================================
+
+            if (!response.ok) {
+
+                console.error(
+                    "Create staff error:",
+                    response.status,
+                    data
+                );
+
+                showError(
+                    data.message ||
+                    "Unable to create staff account. Please try again."
+                );
+
+                return;
+
+            }
+
+
+            // ==================================================
+            // SUCCESS — show the persistent success panel
+            // DO NOT call form.reset() here — let the panel
+            // stay visible until the user clicks a button.
+            // ==================================================
+
+            showSuccess(
+                data.staff_id,
+                name,
+                email,
+                password
+            );
+
+
+        } catch (error) {
+
+            console.error("Create staff network error:", error);
+
+            if (error.name === "TypeError" && error.message.includes("fetch")) {
+
+                showError(
+                    "Unable to connect to the server. Make sure the backend is running on http://localhost:5000."
+                );
+
+            } else {
+
+                showError(
+                    error.message ||
+                    "An unexpected error occurred."
+                );
+
+            }
+
+        } finally {
+
+            createButton.disabled = false;
+
+            createButton.textContent = "Create Staff Account";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

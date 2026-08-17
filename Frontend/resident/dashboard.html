@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resident Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        header {
+            background: #2563eb;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        #logoutButton {
+            width: auto;
+            margin: 0;
+            padding: 9px 18px;
+            background: white;
+            color: #2563eb;
+        }
+
+        /* ==============================
+           MAIN CONTAINER
+        ============================== */
+
+        .container {
+            width: 1000px;
+            max-width: 94%;
+            margin: 30px auto;
+        }
+
+        /* ==============================
+           WELCOME
+        ============================== */
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* ==============================
+           CARDS
+        ============================== */
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        /* ==============================
+           FORM
+        ============================== */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+
+            border: 1px solid #ccc;
+            border-radius: 6px;
+
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 12px 20px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .submit-button {
+            margin-top: 20px;
+        }
+
+        /* ==============================
+           MESSAGE
+        ============================== */
+
+        #complaintMessage {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* ==============================
+           TABLE
+        ============================== */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+        }
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .progress {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .resolved {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            header {
+                padding: 15px;
+            }
+
+            header h2 {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header>
+
+    <h2>
+        PG Complaint Management
+    </h2>
+
+    <button id="logoutButton">
+        Logout
+    </button>
+
+</header>
+
+
+
+<!-- ==========================================
+     MAIN CONTENT
+========================================== -->
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1 id="welcomeMessage">
+            Welcome!
+        </h1>
+
+        <p>
+            Submit and track your PG complaints.
+        </p>
+
+    </div>
+
+
+
+    <!-- ======================================
+         SUBMIT COMPLAINT
+    ======================================= -->
+
+    <div class="card">
+
+        <h2>
+            Submit Complaint
+        </h2>
+
+
+        <form id="complaintForm">
+
+
+            <div class="form-grid">
+
+
+                <!-- Resident Name -->
+
+                <div class="form-group">
+
+                    <label>
+                        Resident Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="resident_name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Room Number -->
+
+                <div class="form-group">
+
+                    <label>
+                        Room Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="room_number"
+                        placeholder="Example: 204"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Contact -->
+
+                <div class="form-group">
+
+                    <label>
+                        Contact Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contact"
+                        placeholder="Enter contact number"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Category -->
+
+                <div class="form-group">
+
+                    <label>
+                        Complaint Category
+                    </label>
+
+                    <select
+                        id="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select category
+                        </option>
+
+                        <option value="Electrical">
+                            Electrical
+                        </option>
+
+                        <option value="Plumbing">
+                            Plumbing
+                        </option>
+
+                        <option value="Cleaning">
+                            Cleaning
+                        </option>
+
+                        <option value="Food">
+                            Food
+                        </option>
+
+                        <option value="Internet">
+                            Internet
+                        </option>
+
+                        <option value="Room">
+                            Room
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Date -->
+
+                <div class="form-group">
+
+                    <label>
+                        Complaint Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Priority -->
+
+                <div class="form-group">
+
+                    <label>
+                        Priority
+                    </label>
+
+                    <select
+                        id="priority"
+                        required
+                    >
+
+                        <option value="">
+                            Select priority
+                        </option>
+
+                        <option value="Low">
+                            Low
+                        </option>
+
+                        <option value="Medium">
+                            Medium
+                        </option>
+
+                        <option value="High">
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Complaint Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Describe your complaint..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Additional Information -->
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Additional Information
+                    </label>
+
+                    <textarea
+                        id="additional_info"
+                        placeholder="Any additional information..."
+                    ></textarea>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-button"
+            >
+                Submit Complaint
+            </button>
+
+
+            <div id="complaintMessage"></div>
+
+
+        </form>
+
+    </div>
+
+
+
+    <!-- ======================================
+         MY COMPLAINTS
+    ======================================= -->
+
+    <div class="card">
+
+        <h2>
+            My Complaints
+        </h2>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Priority
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="complaintsTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+// ======================================================
+// CHECK LOGIN
+// ======================================================
+
+const token =
+    localStorage.getItem("residentToken");
+
+
+const storedUser =
+    localStorage.getItem("residentUser");
+
+
+// If token doesn't exist,
+// send user back to login page.
+
+if (!token) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// Convert stored user JSON back into object
+
+let user = null;
+
+
+if (storedUser) {
+
+    user =
+        JSON.parse(storedUser);
+
+}
+
+
+// ======================================================
+// DISPLAY USER NAME
+// ======================================================
+
+if (user) {
+
+    document.getElementById(
+        "welcomeMessage"
+    ).textContent =
+        "Welcome, " + user.name + "!";
+
+
+    // Automatically fill resident name
+
+    document.getElementById(
+        "resident_name"
+    ).value =
+        user.name;
+
+}
+
+
+// ======================================================
+// SET TODAY'S DATE
+// ======================================================
+
+document.getElementById(
+    "date"
+).value =
+    new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+document.getElementById(
+    "logoutButton"
+).addEventListener(
+    "click",
+    function() {
+
+        // Remove login information
+
+        localStorage.removeItem(
+            "residentToken"
+        );
+
+        localStorage.removeItem(
+            "residentUser"
+        );
+
+
+        // Return to login
+
+        window.location.href =
+            "login.html";
+
+    }
+);
+
+
+// ======================================================
+// SUBMIT COMPLAINT
+// ======================================================
+
+document.getElementById(
+    "complaintForm"
+).addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const complaintMessage =
+            document.getElementById(
+                "complaintMessage"
+            );
+
+
+        complaintMessage.textContent =
+            "Submitting complaint...";
+
+
+        // Collect form data
+
+        const complaintData = {
+
+            resident_name:
+                document.getElementById(
+                    "resident_name"
+                ).value.trim(),
+
+            room_number:
+                document.getElementById(
+                    "room_number"
+                ).value.trim(),
+
+            contact:
+                document.getElementById(
+                    "contact"
+                ).value.trim(),
+
+            category:
+                document.getElementById(
+                    "category"
+                ).value,
+
+            description:
+                document.getElementById(
+                    "description"
+                ).value.trim(),
+
+            date:
+                document.getElementById(
+                    "date"
+                ).value,
+
+            priority:
+                document.getElementById(
+                    "priority"
+                ).value,
+
+            additional_info:
+                document.getElementById(
+                    "additional_info"
+                ).value.trim()
+
+        };
+
+
+        try {
+
+            // Send complaint to backend
+
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/complaints",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        },
+
+                        body:
+                            JSON.stringify(
+                                complaintData
+                            )
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            // Check response
+
+            if (!response.ok) {
+
+                complaintMessage.textContent =
+                    data.message ||
+                    "Failed to submit complaint";
+
+                return;
+
+            }
+
+
+            // Show success message
+
+            complaintMessage.textContent =
+                "Complaint submitted successfully!";
+
+
+            // Clear form
+
+            document.getElementById(
+                "complaintForm"
+            ).reset();
+
+
+            // Restore resident name
+
+            document.getElementById(
+                "resident_name"
+            ).value =
+                user.name;
+
+
+            // Restore today's date
+
+            document.getElementById(
+                "date"
+            ).value =
+                new Date()
+                    .toISOString()
+                    .split("T")[0];
+
+
+            // Reload complaints
+
+            loadComplaints();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            complaintMessage.textContent =
+                "Unable to connect to server";
+
+        }
+
+    }
+);
+
+
+// ======================================================
+// LOAD MY COMPLAINTS
+// ======================================================
+
+async function loadComplaints() {
+
+    const table =
+        document.getElementById(
+            "complaintsTable"
+        );
+
+
+    table.innerHTML =
+        "<tr><td colspan='6'>Loading...</td></tr>";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "http://localhost:5000/api/complaints",
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    }
+
+                }
+            );
+
+
+        // If token expired,
+        // return to login
+
+        if (response.status === 401) {
+
+            localStorage.removeItem(
+                "residentToken"
+            );
+
+            localStorage.removeItem(
+                "residentUser"
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        const complaints =
+            await response.json();
+
+
+        table.innerHTML = "";
+
+
+        // No complaints
+
+        if (
+            complaints.length === 0
+        ) {
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        style="text-align:center;"
+                    >
+                        No complaints submitted yet.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        // Display complaints
+
+        complaints.forEach(
+            function(complaint) {
+
+
+                let statusClass =
+                    "pending";
+
+
+                if (
+                    complaint.status ===
+                    "In Progress"
+                ) {
+
+                    statusClass =
+                        "progress";
+
+                }
+
+
+                if (
+                    complaint.status ===
+                    "Resolved"
+                ) {
+
+                    statusClass =
+                        "resolved";
+
+                }
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${complaint.id}
+                    </td>
+
+                    <td>
+                        ${complaint.category}
+                    </td>
+
+                    <td>
+                        ${complaint.priority}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status ${statusClass}"
+                        >
+                            ${complaint.status}
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${complaint.date}
+                    </td>
+
+                    <td>
+                        ${complaint.description}
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    style="text-align:center;"
+                >
+                    Unable to connect to server.
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+// ======================================================
+// LOAD COMPLAINTS WHEN PAGE OPENS
+// ======================================================
+
+loadComplaints();
+
+
+</script>
+
+
+</body>
+
+</html>

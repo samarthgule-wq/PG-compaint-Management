@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Dashboard - PG Complaint Management</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f1f5f9;
+
+            color: #1e293b;
+
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .header {
+
+            background: #243f8f;
+
+            color: white;
+
+            padding: 18px 25px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 24px;
+
+        }
+
+
+        .admin-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+        }
+
+
+        #adminName {
+
+            font-weight: bold;
+
+        }
+
+
+        .logout-button {
+
+            border: none;
+
+            padding: 9px 16px;
+
+            border-radius: 6px;
+
+            background: #dc2626;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .logout-button:hover {
+
+            background: #b91c1c;
+
+        }
+
+
+        /* ==================================================
+           MAIN CONTAINER
+        ================================================== */
+
+        .container {
+
+            width: 95%;
+
+            max-width: 1500px;
+
+            margin: 30px auto;
+
+        }
+
+
+        .welcome {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .welcome h2 {
+
+            margin-top: 0;
+
+        }
+
+
+        /* ==================================================
+           ACTION BUTTONS
+        ================================================== */
+
+        .actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .action-button {
+
+            border: none;
+
+            padding: 11px 18px;
+
+            border-radius: 7px;
+
+            background: #2563eb;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .action-button:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        .create-button {
+
+            background: #059669;
+
+        }
+
+
+        .create-button:hover {
+
+            background: #047857;
+
+        }
+
+
+        /* ==================================================
+           STATISTICS
+        ================================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(150px, 1fr)
+                );
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.06);
+
+            text-align: center;
+
+        }
+
+
+        .stat-card h3 {
+
+            margin: 0 0 10px;
+
+            color: #64748b;
+
+            font-size: 15px;
+
+        }
+
+
+        .stat-number {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #2563eb;
+
+        }
+
+
+        /* ==================================================
+           COMPLAINT SECTION
+        ================================================== */
+
+        .complaints-section {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .complaints-section h2 {
+
+            margin-top: 0;
+
+        }
+
+
+        .table-container {
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1300px;
+
+        }
+
+
+        th {
+
+            background: #243f8f;
+
+            color: white;
+
+            padding: 12px;
+
+            text-align: left;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 12px;
+
+            border-bottom:
+                1px solid #e2e8f0;
+
+            vertical-align: top;
+
+        }
+
+
+        tr:hover {
+
+            background: #f8fafc;
+
+        }
+
+
+        .description {
+
+            max-width: 250px;
+
+            white-space: normal;
+
+        }
+
+
+        .additional {
+
+            max-width: 250px;
+
+            white-space: normal;
+
+        }
+
+
+        .remarks {
+
+            max-width: 250px;
+
+            white-space: normal;
+
+        }
+
+
+        .status {
+
+            font-weight: bold;
+
+        }
+
+
+        /* ==================================================
+           LOADING
+        ================================================== */
+
+        .loading {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #64748b;
+
+        }
+
+
+        .error {
+
+            color: #b91c1c;
+
+            background: #fee2e2;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-top: 15px;
+
+            display: none;
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        1fr
+                    );
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .stats {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .header h1 {
+
+                font-size: 20px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="header">
+
+    <h1>
+        PG Complaint Management
+    </h1>
+
+
+    <div class="admin-info">
+
+        <span id="adminName">
+            Admin
+        </span>
+
+
+        <button
+            class="logout-button"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- ==================================================
+     MAIN
+================================================== -->
+
+<main class="container">
+
+
+    <section class="welcome">
+
+        <h2>
+            Admin Dashboard
+        </h2>
+
+        <p>
+            Manage complaints and PG staff accounts.
+        </p>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         ACTION BUTTONS
+    ================================================== -->
+
+    <div class="actions">
+
+        <button
+            class="action-button"
+            onclick="loadComplaints()"
+        >
+            Refresh Complaints
+        </button>
+
+
+        <button
+            class="action-button create-button"
+            onclick="openCreateStaff()"
+        >
+            Create Staff Account
+        </button>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         STATISTICS
+    ================================================== -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <h3>
+                Total Complaints
+            </h3>
+
+            <div
+                class="stat-number"
+                id="totalComplaints"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Pending
+            </h3>
+
+            <div
+                class="stat-number"
+                id="pendingComplaints"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                In Progress
+            </h3>
+
+            <div
+                class="stat-number"
+                id="progressComplaints"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Resolved
+            </h3>
+
+            <div
+                class="stat-number"
+                id="resolvedComplaints"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         COMPLAINTS
+    ================================================== -->
+
+    <section class="complaints-section">
+
+        <h2>
+            All Complaints
+        </h2>
+
+
+        <div
+            id="loading"
+            class="loading"
+        >
+            Loading complaints...
+        </div>
+
+
+        <div
+            id="errorMessage"
+            class="error"
+        ></div>
+
+
+        <div class="table-container">
+
+            <table
+                id="complaintsTable"
+                style="display:none;"
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Resident
+                        </th>
+
+                        <th>
+                            Room
+                        </th>
+
+                        <th>
+                            Contact
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+
+                        <th>
+                            Additional Information
+                        </th>
+
+                        <th>
+                            Priority
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Staff Remarks
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="complaintsBody"
+                ></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+// ======================================================
+// API
+// ======================================================
+
+const API_URL =
+    "http://localhost:5000";
+
+
+// ======================================================
+// GET ADMIN LOGIN DATA
+// ======================================================
+
+const token =
+    localStorage.getItem(
+        "adminToken"
+    );
+
+
+let adminUser = null;
+
+
+try {
+
+    adminUser =
+        JSON.parse(
+            localStorage.getItem(
+                "adminUser"
+            ) || "null"
+        );
+
+} catch (error) {
+
+    adminUser = null;
+
+}
+
+
+// ======================================================
+// ADMIN ACCESS CHECK
+// ======================================================
+
+if (
+    !token ||
+    !adminUser ||
+    adminUser.role !== "admin"
+) {
+
+    localStorage.removeItem(
+        "adminToken"
+    );
+
+    localStorage.removeItem(
+        "adminUser"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// ======================================================
+// DISPLAY ADMIN NAME
+// ======================================================
+
+if (
+    adminUser &&
+    adminUser.name
+) {
+
+    document.getElementById(
+        "adminName"
+    ).textContent =
+        adminUser.name;
+
+}
+
+
+// ======================================================
+// LOAD COMPLAINTS
+// ======================================================
+
+async function loadComplaints() {
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    const errorMessage =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    const table =
+        document.getElementById(
+            "complaintsTable"
+        );
+
+
+    const body =
+        document.getElementById(
+            "complaintsBody"
+        );
+
+
+    loading.style.display =
+        "block";
+
+
+    errorMessage.style.display =
+        "none";
+
+
+    table.style.display =
+        "none";
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/complaints",
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " +
+                            token
+
+                    }
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        // ==================================================
+        // AUTHENTICATION ERROR
+        // ==================================================
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load complaints"
+            );
+
+        }
+
+
+        // ==================================================
+        // CLEAR OLD ROWS
+        // ==================================================
+
+        body.innerHTML =
+            "";
+
+
+        // ==================================================
+        // STATISTICS
+        // ==================================================
+
+        const total =
+            data.length;
+
+
+        const pending =
+            data.filter(
+                complaint =>
+                    complaint.status ===
+                    "Pending"
+            ).length;
+
+
+        const progress =
+            data.filter(
+                complaint =>
+                    complaint.status ===
+                    "In Progress"
+            ).length;
+
+
+        const resolved =
+            data.filter(
+                complaint =>
+                    complaint.status ===
+                    "Resolved"
+            ).length;
+
+
+        document.getElementById(
+            "totalComplaints"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "pendingComplaints"
+        ).textContent =
+            pending;
+
+
+        document.getElementById(
+            "progressComplaints"
+        ).textContent =
+            progress;
+
+
+        document.getElementById(
+            "resolvedComplaints"
+        ).textContent =
+            resolved;
+
+
+        // ==================================================
+        // NO COMPLAINTS
+        // ==================================================
+
+        if (
+            data.length === 0
+        ) {
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="11"
+                        style="text-align:center;"
+                    >
+                        No complaints found.
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+
+        // ==================================================
+        // DISPLAY COMPLAINTS
+        // ==================================================
+
+        data.forEach(
+            complaint => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHtml(
+                            complaint.id
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            complaint.resident_name
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            complaint.room_number
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            complaint.contact
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            complaint.category
+                        )}
+                    </td>
+
+                    <td class="description">
+                        ${escapeHtml(
+                            complaint.description
+                        )}
+                    </td>
+
+                    <td class="additional">
+                        ${escapeHtml(
+                            complaint.additional_info ||
+                            "None"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            complaint.priority
+                        )}
+                    </td>
+
+                    <td class="status">
+                        ${escapeHtml(
+                            complaint.status
+                        )}
+                    </td>
+
+                    <td class="remarks">
+                        ${escapeHtml(
+                            complaint.staff_remarks ||
+                            "No remarks"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            complaint.date
+                        )}
+                    </td>
+
+                `;
+
+
+                body.appendChild(
+                    row
+                );
+
+            }
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        table.style.display =
+            "table";
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Load complaints error:",
+            error
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        errorMessage.textContent =
+            error.message ||
+            "Unable to load complaints.";
+
+
+        errorMessage.style.display =
+            "block";
+
+    }
+
+}
+
+
+// ======================================================
+// ESCAPE HTML
+// ======================================================
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        value === null ||
+        value === undefined
+            ? ""
+            : String(value);
+
+
+    return div.innerHTML;
+
+}
+
+
+// ======================================================
+// OPEN CREATE STAFF PAGE
+// ======================================================
+
+function openCreateStaff() {
+
+    window.location.href =
+        "create-staff.html";
+
+}
+
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+function logout() {
+
+    localStorage.removeItem(
+        "adminToken"
+    );
+
+
+    localStorage.removeItem(
+        "adminUser"
+    );
+
+
+    // Also remove old session values
+
+    sessionStorage.removeItem(
+        "adminToken"
+    );
+
+
+    sessionStorage.removeItem(
+        "adminUser"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// ======================================================
+// LOAD COMPLAINTS WHEN PAGE OPENS
+// ======================================================
+
+loadComplaints();
+
+</script>
+
+
+</body>
+
+</html>

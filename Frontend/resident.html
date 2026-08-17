@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <!-- Defines the character encoding -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Makes the page responsive -->
+
+    <title>Resident Dashboard</title>
+    <!-- Browser tab title -->
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Connects our common CSS file -->
+
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <!-- Main dashboard container -->
+
+
+        <header class="dashboard-header">
+
+            <div>
+                <h1>Resident Dashboard</h1>
+                <!-- Dashboard heading -->
+
+                <p id="welcomeMessage">
+                    Welcome
+                </p>
+                <!-- User's name will be displayed here -->
+
+            </div>
+
+
+            <button id="logoutButton">
+                Logout
+            </button>
+            <!-- Logout button -->
+
+        </header>
+
+
+        <section class="complaint-section">
+
+            <h2>Submit a Complaint</h2>
+            <!-- Complaint form heading -->
+
+
+            <form id="complaintForm">
+
+                <label for="residentName">
+                    Resident Name
+                </label>
+
+                <input
+                    type="text"
+                    id="residentName"
+                    required
+                >
+                <!-- Resident name -->
+
+
+                <label for="roomNumber">
+                    Room Number
+                </label>
+
+                <input
+                    type="text"
+                    id="roomNumber"
+                    placeholder="Example: 101"
+                    required
+                >
+                <!-- Room number -->
+
+
+                <label for="contact">
+                    Contact Number
+                </label>
+
+                <input
+                    type="text"
+                    id="contact"
+                    placeholder="Enter contact number"
+                    required
+                >
+                <!-- Contact number -->
+
+
+                <label for="category">
+                    Complaint Category
+                </label>
+
+                <select id="category" required>
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option value="Water">
+                        Water
+                    </option>
+
+                    <option value="Electricity">
+                        Electricity
+                    </option>
+
+                    <option value="Food">
+                        Food
+                    </option>
+
+                    <option value="Cleanliness">
+                        Cleanliness
+                    </option>
+
+                    <option value="Maintenance">
+                        Maintenance
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+                <!-- Complaint category -->
+
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    placeholder="Describe your complaint"
+                    required
+                ></textarea>
+                <!-- Complaint description -->
+
+
+                <label for="date">
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    id="date"
+                    required
+                >
+                <!-- Complaint date -->
+
+
+                <label for="priority">
+                    Priority
+                </label>
+
+                <select id="priority" required>
+
+                    <option value="">
+                        Select Priority
+                    </option>
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                    <option value="Medium">
+                        Medium
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                </select>
+                <!-- Complaint priority -->
+
+
+                <label for="additionalInfo">
+                    Additional Information
+                </label>
+
+                <textarea
+                    id="additionalInfo"
+                    placeholder="Optional information"
+                ></textarea>
+                <!-- Optional information -->
+
+
+                <button type="submit">
+                    Submit Complaint
+                </button>
+                <!-- Submit complaint button -->
+
+            </form>
+
+
+            <p id="complaintMessage"></p>
+            <!-- Shows success/error messages -->
+
+        </section>
+
+
+        <section class="complaint-section">
+
+            <h2>My Complaints</h2>
+            <!-- Complaint list heading -->
+
+            <button id="loadComplaintsButton">
+                Refresh Complaints
+            </button>
+            <!-- Button to reload complaints -->
+
+
+            <div id="complaintsList">
+                <!-- Complaints will appear here using JavaScript -->
+
+                <p>
+                    Loading complaints...
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script src="resident.js"></script>
+    <!-- Connects resident dashboard JavaScript -->
+
+</body>
+
+</html>
