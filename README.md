@@ -68,3 +68,5 @@ PG-compaint-Management/
 │
 ├── .gitignore
 └── README.md
+<img width="1919" height="1199" alt="image" src="https://github.com/user-attachments/assets/1503501d-d96a-459f-b453-0bd7247df1a6" />
+<img width="1916" height="1199" alt="image" src="https://github.com/user-attachments/assets/54428ece-6dc5-4e2c-8fc5-357ccae21c54" />
